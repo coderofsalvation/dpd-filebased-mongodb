@@ -1,5 +1,3 @@
-# BETA (not ready for production) 
-
 run deployd without mongodb (but a jsonfile instead to store data)
 
 <img src="https://media0.giphy.com/media/3o7TKDMPKsakcn9NU4/200.gif" width="150" style="width:150px"/>
