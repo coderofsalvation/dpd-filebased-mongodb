@@ -28,3 +28,4 @@ Now make sure you include it *before* deployd itself in your `app.js`:
 
 * to specify a different file, specify environment variable `MONGO_DB_FILE="data/foo.js"` etc
 * it doesn't run *all* mongo-queries (see [mongo-mock](https://npmjs.org/package/mongomock)
+* hiding fields doesn't always work (solution: put `if( this.password ) delete this.password` into event-code)
