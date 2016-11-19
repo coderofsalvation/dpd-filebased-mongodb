@@ -1,0 +1,23 @@
+{
+  "name": "dpd-filebased-mongodb",
+  "version": "1.1.7",
+  "description": "run deployd without mongodb (but a jsonfile instead to store data)",
+  "main": "index.js",
+  "repository": "https://www.github.com/coderofsalvation/dpd-filebased-mongodbs.git",
+  "keywords": [
+    "filebased",
+    "mongo",
+    "json",
+    "flatfile",
+    "memory"
+  ],
+  "dependencies": {
+    "mongo-mock": "^2.1.0",
+    "monkeypatch": "^1.0.0"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
