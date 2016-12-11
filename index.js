@@ -24,6 +24,10 @@
 				}
 				MongoClient.load(dbfile)
         debug("mongodb redirected to '"+dbfile+"'")
+        process.on('SIGINT', function () {
+					console.log("saving db to "+process.env.MONGO_DB_FILE)
+					mongo.MongoClient._persist()
+				});
       }
       
       return mongo 
@@ -65,6 +69,7 @@
 			var o = original(modname)
 			return function( db, state ){
 				var v = o(db,state)
+        B
 				monkeypatch(v,'find',function(originalFind){
 					var args = []
 					for( var i in arguments ) 
