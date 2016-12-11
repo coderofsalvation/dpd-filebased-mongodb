@@ -18,22 +18,23 @@
         var dbfile = process.env.MONGO_DB_FILE || process.cwd()+"/mongodb.js";
         MongoClient.persist= dbfile 
 				try{
-					require(dbfile)
+					require('fs').readFileSync(dbfile)
 				}catch (e){
+          console.log("COULD NOT OPEN "+dbfile)
 					require('fs').writeFileSync(dbfile,"module.exports = {}")
 				}
-				MongoClient.load(dbfile)
+        MongoClient.load(dbfile)
         debug("mongodb redirected to '"+dbfile+"'")
         process.on('SIGINT', function () {
-					console.log("saving db to "+process.env.MONGO_DB_FILE)
-					mongo.MongoClient._persist()
-				});
+          console.log("saving db to "+process.env.MONGO_DB_FILE)
+          mongo.MongoClient._persist()
+        });
       }
       
       return mongo 
     } 
 
-    // nasty fix for an edgecase with mongo-mock to make update() work
+    // nasty fix for an edgecases with mongo-mock to make update() work
     if( modname == './collection.js' ){
       return function(dbname,server){
         var collection = original(modname)(dbname,server)  
@@ -46,8 +47,17 @@
               cb( err, {result:result}) 
             }
             return update.apply({},args)
-          }else return update.apply({}, args )
+          }else return update.apply({}, arguments )
         }
+
+				monkeypatch(collection,'find',function(originalFind){
+					var args = []
+					for( var i in arguments ) 
+						if( i > 0 ) args[i-1] = arguments[i]
+					if( args[1] == undefined ) args[1] = {}
+					return originalFind.apply(this,args)
+				})
+
         return collection
       }
     }
@@ -64,22 +74,6 @@
       return ObjectId
     }
 
-		// patch find
-		if( modname == './collection.js' ){
-			var o = original(modname)
-			return function( db, state ){
-				var v = o(db,state)
-        B
-				monkeypatch(v,'find',function(originalFind){
-					var args = []
-					for( var i in arguments ) 
-						if( i > 0 ) args[i-1] = arguments[i]
-					if( args[1] == undefined ) args[1] = {}
-					return originalFind.apply(this,args)
-				})
-				return v
-			}
-		}
 		return original(modname)
   }) 
   

@@ -1,6 +1,6 @@
 {
   "name": "dpd-filebased-mongodb",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "run deployd without mongodb (but a jsonfile instead to store data)",
   "main": "index.js",
   "repository": "https://www.github.com/coderofsalvation/dpd-filebased-mongodbs.git",
