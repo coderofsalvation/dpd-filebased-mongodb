@@ -45,7 +45,6 @@
             }
             return update.apply({},args)
           }else return update.apply({}, arguments )
-          return update.apply({}, arguments )
         }
 
 				monkeypatch(collection,'find',function(originalFind){
