@@ -5,6 +5,7 @@
   var mongo = false 
   var ObjectId = false
   var instance = false
+  var fs = require('fs')
 
   // patch require()             
   monkeypatch( require('module').prototype,'require', function(original, modname ){
@@ -18,17 +19,13 @@
         var dbfile = process.env.MONGO_DB_FILE || process.cwd()+"/mongodb.js";
         MongoClient.persist= dbfile 
 				try{
-					require('fs').readFileSync(dbfile)
+					fs.readFileSync(dbfile)
+          console.log("reading "+dbfile)
 				}catch (e){
-          console.log("COULD NOT OPEN "+dbfile)
-					require('fs').writeFileSync(dbfile,"module.exports = {}")
+          console.log("creating "+dbfile)
+					fs.writeFileSync(dbfile,"module.exports = {}")
 				}
         MongoClient.load(dbfile)
-        debug("mongodb redirected to '"+dbfile+"'")
-        process.on('SIGINT', function () {
-          console.log("saving db to "+process.env.MONGO_DB_FILE)
-          mongo.MongoClient._persist()
-        });
       }
       
       return mongo 
@@ -48,6 +45,7 @@
             }
             return update.apply({},args)
           }else return update.apply({}, arguments )
+          return update.apply({}, arguments )
         }
 
 				monkeypatch(collection,'find',function(originalFind){
