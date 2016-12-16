@@ -64,11 +64,10 @@
         monkeypatch(collection,'remove',function(originalRemove, selector, opts, callback){
           var args = []
           for( var i in arguments ) if( i > 0 ) args[i-1] = arguments[i]
-          var selector = arguments[0]
-          if( selector && selector._id && selector._id['$in'] ) {
+          var selector = args[0]
+          if( selector && selector._id && selector._id['$in'] ) 
             selector._id = selector._id['$in'].pop()
-          }
-          return originalRemove.apply(this,arguments)
+          return originalRemove.apply(this,args)
         })
 
         return collection
